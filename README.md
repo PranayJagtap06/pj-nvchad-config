@@ -26,7 +26,7 @@ git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
 ```
 Or this already configured version
 ```bash
-git clone https://github.com/ProgrammingRainbow/NvChad-2.5 ~/.config/nvim && nvim
+git clone https://github.com/PranayJagtap06/pj-nvchad-config ~/.config/nvim && nvim
 ```
 You can safely remove the `.git` and image files.
 ```bash
