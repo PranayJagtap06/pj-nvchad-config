@@ -17,6 +17,10 @@ lspconfig.servers = {
     "html",
     "bashls",
     "fish_lsp",
+    "dockerls",
+    "docker_compose_language_service",
+    "docker_language_server",
+    "jsonls",
 }
 
 -- list of servers configured with default config.
