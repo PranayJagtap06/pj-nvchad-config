@@ -9,9 +9,21 @@ return {
 		end,
 	},
 
+	-- {
+	-- 	"neovim/nvim-lspconfig",
+	-- 	event = { "BufReadPre", "BufNewFile" },
+	-- 	config = function()
+	-- 		require("nvchad.configs.lspconfig").defaults()
+	-- 		require("configs.lspconfig")
+	-- 	end,
+	-- },
+
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+		},
 		config = function()
 			require("nvchad.configs.lspconfig").defaults()
 			require("configs.lspconfig")
@@ -205,15 +217,15 @@ return {
 					},
 					{ icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
 					{ section = "startup" },
-					{
-						section = "terminal",
-						cmd = "ascii-image-converter ~/.config/wolf-2.png -C -c",
-						random = 10,
-						pane = 2,
-						indent = 4,
-						height = 40,
-						padding = { 2, 2, 2, 0 },
-					},
+					    {
+					    	section = "terminal",
+					    	cmd = "ascii-image-converter ~/.config/wolf-2.png -C -c",
+					    	random = 10,
+					    	pane = 2,
+					    	indent = 4,
+					    	height = 40,
+					    	padding = { 2, 2, 2, 0 },
+						},
 				},
 			},
 			explorer = { enabled = true },
