@@ -1,98 +1,56 @@
-local M = {}
-local lsp = vim.lsp
-
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 
--- local lspconfig = require("lspconfig")
+-- local lspconfig = require("lspconfig") -- pre nvim 0.11
+local lspconfig = require("nvchad.configs.lspconfig") -- nvim 0.11
 
 -- list of all servers configured.
--- lspconfig.servers = {
---     "lua_ls",
---     -- "clangd",
--- --     "gopls",
---     -- "hls",
---     -- "ols",
---     "pyright",
---     "ruff",
---     "cssls",
---     "html",
---     "bashls",
---     "fish_lsp",
---     "dockerls",
---     "docker_compose_language_service",
---     "docker_language_server",
---     "jsonls",
--- }
-
--- Configure servers
-M.setup = function()
-    -- Configure each server
-    local servers = {
-        lua_ls = {
-            settings = {
-                Lua = {
-                    diagnostics = {
-                        enable = false,
-                    },
-                    workspace = {
-                        library = {
-                            vim.fn.expand("$VIMRUNTIME/lua"),
-                            vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
-                            vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types",
-                            vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy",
-                            "${3rd}/love2d/library",
-                        },
-                        maxPreload = 100000,
-                        preloadFileSize = 10000,
-                    },
-                },
-            },
-        },
-        pyright = {
-            settings = {
-                python = {
-                    analysis = {
-                        typeCheckingMode = "off",
-                    },
-                },
-            },
-        },
-    }
-
-    local default_servers = {
-        "ruff",
-        -- "ols",
-        -- "pyright",
-    }
-    -- Setup each server
-    for server, config in pairs(servers) do
-        config.on_attach = on_attach
-        config.on_init = on_init
-        config.capabilities = capabilities
-        
-        require("lspconfig")[server].setup(config)
-    end
-end
+lspconfig.servers = {
+    "lua_ls",
+    -- "clangd",
+    -- "gopls",
+    -- "hls",
+    -- "ols",
+    "pyright",
+    "ruff",
+    "cssls",
+    "html",
+    "bashls",
+    "fish_lsp",
+    "dockerls",
+    "docker_compose_language_service",
+    "docker_language_server",
+    "jsonls",
+}
 
 -- list of servers configured with default config.
--- local default_servers = {
---     -- "ols",
---     -- "pyright",
---     "ruff",
--- }
+local default_servers = {
+    "ruff",
+    -- "ols",
+    -- "pyright",
+    "cssls",
+    "html",
+    "bashls",
+    "fish_lsp",
+    "dockerls",
+    "docker_compose_language_service",
+    "docker_language_server",
+    "jsonls",
+}
 
 -- lsps with default config
--- for _, lsp in ipairs(default_servers) do
---     lspconfig[lsp].setup({
---         on_attach = on_attach,
---         on_init = on_init,
---         capabilities = capabilities,
---     })
--- end
+for _, lsp in ipairs(default_servers) do
+    -- lspconfig[lsp].setup({ -- pre nvim 0.11
+    vim.lsp.config(lsp, { -- nvim 0.11
+        on_attach = on_attach,
+        on_init = on_init,
+        capabilities = capabilities,
+    })
+end
 
--- lspconfig.clangd.setup({
+-- -- lspconfig.clangd.setup({ -- pre nvim 0.11
+-- vim.lsp.config("clangd", { -- nvim 0.11
 --     on_attach = function(client, bufnr)
 --         client.server_capabilities.documentFormattingProvider = false
 --         client.server_capabilities.documentRangeFormattingProvider = false
@@ -102,7 +60,8 @@ end
 --     capabilities = capabilities,
 -- })
 
--- lspconfig.gopls.setup({
+-- -- lspconfig.gopls.setup({ -- pre nvim 0.11
+-- vim.lsp.config("gopls", { -- nvim 0.11
 --     on_attach = function(client, bufnr)
 --         client.server_capabilities.documentFormattingProvider = false
 --         client.server_capabilities.documentRangeFormattingProvider = false
@@ -112,7 +71,8 @@ end
 --     capabilities = capabilities,
 --     cmd = { "gopls" },
 --     filetypes = { "go", "gomod", "gotmpl", "gowork" },
---     root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
+--     -- root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"), -- pre nvim 0.11
+--     root_dir = require("lspconfig.util").root_pattern("go.work", "go.mod", ".git"), -- nvim 0.11
 --     settings = {
 --         gopls = {
 --             analyses = {
@@ -125,7 +85,8 @@ end
 --     },
 -- })
 
--- lspconfig.hls.setup({
+-- -- lspconfig.hls.setup({ -- pre nvim 0.11
+-- vim.lsp.config("hls", { -- nvim 0.11
 --     on_attach = function(client, bufnr)
 --         client.server_capabilities.documentFormattingProvider = false
 --         client.server_capabilities.documentRangeFormattingProvider = false
@@ -136,42 +97,43 @@ end
 --     capabilities = capabilities,
 -- })
 
--- lspconfig.lua_ls.setup({
---     on_attach = on_attach,
---     on_init = on_init,
---     capabilities = capabilities,
+-- lspconfig.lua_ls.setup({ -- pre nvim 0.11
+vim.lsp.config("lua_ls", { -- nvim 0.11
+    on_attach = on_attach,
+    on_init = on_init,
+    capabilities = capabilities,
 
---     settings = {
---         Lua = {
---             diagnostics = {
---                 enable = false, -- Disable all diagnostics from lua_ls
---                 -- globals = { "vim" },
---             },
---             workspace = {
---                 library = {
---                     vim.fn.expand("$VIMRUNTIME/lua"),
---                     vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
---                     vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types",
---                     vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy",
---                     "${3rd}/love2d/library",
---                 },
---                 maxPreload = 100000,
---                 preloadFileSize = 10000,
---             },
---         },
---     },
--- })
+    settings = {
+        Lua = {
+            diagnostics = {
+                enable = false, -- Disable all diagnostics from lua_ls
+                -- globals = { "vim" },
+            },
+            workspace = {
+                library = {
+                    vim.fn.expand("$VIMRUNTIME/lua"),
+                    vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
+                    vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types",
+                    vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy",
+                    "${3rd}/love2d/library",
+                },
+                maxPreload = 100000,
+                preloadFileSize = 10000,
+            },
+        },
+    },
+})
 
--- lspconfig.pyright.setup({
---     on_attach = on_attach,
---     on_init = on_init,
---     capabilities = capabilities,
+vim.lsp.config("pyright", {
+    on_attach = on_attach,
+    on_init = on_init,
+    capabilities = capabilities,
 
---     settings = {
---         python = {
---             analysis = {
---                 typeCheckingMode = "off", -- Disable type checking diagnostics
---             },
---         },
---     },
--- })
+    settings = {
+        python = {
+            analysis = {
+                typeCheckingMode = "off",
+            },
+        },
+    },
+})
