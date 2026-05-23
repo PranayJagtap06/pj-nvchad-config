@@ -704,10 +704,20 @@ return {
         opts = {
             -- add any opts here
             -- this file can contain specific instructions for your project
-            instructions_file = "avante.md",
+            -- instructions_file = "avante.md",
             -- for example
-            provider = "openai",
+            provider = "gemini",
             providers = {
+                gemini = {
+                    endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
+                    -- endpoint = "wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent",
+                    model = "gemini-3.1-pro-preview",
+                    timeout = 30000, -- Timeout in milliseconds
+                    extra_request_body = {
+                        temperature = 1,
+                        max_output_tokens = 65536,
+                    },
+                },
                 openai = {
                     endpoint = "http://localhost:8000/v1", -- Point to antigravity-proxy
                     model = "google/antigravity-gemini-3-pro",
@@ -741,6 +751,9 @@ return {
                     },
                 },
             },
+        },
+        behaviour = {
+            auto_suggestions = true,
         },
         dependencies = {
             "nvim-lua/plenary.nvim",
